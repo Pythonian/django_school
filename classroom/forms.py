@@ -8,8 +8,10 @@ from classroom.models import (Answer, Question, Student, StudentAnswer,
 
 
 class TeacherSignUpForm(UserCreationForm):
+    email = forms.EmailField(required=True)
     class Meta(UserCreationForm.Meta):
         model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -20,6 +22,7 @@ class TeacherSignUpForm(UserCreationForm):
 
 
 class StudentSignUpForm(UserCreationForm):
+    email = forms.EmailField(required=True)
     interests = forms.ModelMultipleChoiceField(
         queryset=Subject.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -28,6 +31,7 @@ class StudentSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
+        fields = ['username', 'email', 'password1', 'password2', 'interests']
 
     @transaction.atomic
     def save(self):
